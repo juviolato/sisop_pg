@@ -6,7 +6,10 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.util.*;
+
+import java.io.*;
 
 
 @ServerEndpoint("/chat")
@@ -30,7 +33,7 @@ public class ChatServer
   }
 
   @OnMessage
-  public void onMessage(Session session, Message message) throws IOException
+  public void onMessage(String message, Session session) throws IOException
   {
     for (Session peer : existing_sessions)
     {
@@ -41,7 +44,7 @@ public class ChatServer
   @OnClose
   public void onClose(Session session) throws IOException
   {
-    LOGGER.log(Level.FINE, "Connection with SESSION ID {0} being CLOSED", session.getID());
+    LOGGER.log(Level.FINE, "Connection with SESSION ID {0} being CLOSED", session.getId());
     existing_sessions.remove(session);
 
     LOGGER.log(Level.FINE, "Connection CLOSED");
@@ -50,6 +53,6 @@ public class ChatServer
   @OnError
   public void onError(Session session, Throwable throwable)
   {
-    
+
   }
 }

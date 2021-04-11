@@ -54,13 +54,13 @@ public class ChatServer
     try
     {
       LOGGER.info(String.format("CLOSING connection for SESSION ID %s.", session.getId()));
-      this.requestingSession.close(new CloseReason(CloseReason.CloseCodes.CLOSED_ABNORMALLY, "Exception occurred: " + throwable.toString()));
+      session.close(new CloseReason(CloseReason.CloseCodes.CLOSED_ABNORMALLY, "Exception occurred: " + throwable.toString()));
       LOGGER.info("Connection CLOSED.");
 
     }
     catch (IOException ex)
     {
-      LOGGER.error("FAILED. AN EXCEPTION HAS OCCURED: ", ex);
+      LOGGER.info("FAILED. AN EXCEPTION HAS OCCURED: ", ex);
     }
   }
 }

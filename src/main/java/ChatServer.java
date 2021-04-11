@@ -18,18 +18,13 @@ public class ChatServer
   private static final Logger LOGGER = Logger.getLogger(ChatServer.class.getName());
   private static Set<Session> existing_sessions;
 
-  public ChatServer()
-  {
-    existing_sessions = new HashSet<Session>();
-  }
-
   @OnOpen
   public void onOpen(Session session) throws IOException
   {
-    LOGGER.log(Level.FINE, "Establishing connection with SESSION ID: {0}", session.getId());
+    LOGGER.info(String.format("Establishing connection with SESSION ID: %s", session.getId()));
     existing_sessions.add(session);
     
-    LOGGER.log(Level.FINE, "Connection ESTABLISHED. Session ID: {0}", session.getId());
+    LOGGER.info(String.format("Connection ESTABLISHED. Session ID: %s", session.getId()));
   }
 
   @OnMessage
@@ -44,10 +39,10 @@ public class ChatServer
   @OnClose
   public void onClose(Session session) throws IOException
   {
-    LOGGER.log(Level.FINE, "Connection with SESSION ID {0} being CLOSED", session.getId());
+    LOGGER.info(String.format("Connection with SESSION ID %s being CLOSED", session.getId()));
     existing_sessions.remove(session);
 
-    LOGGER.log(Level.FINE, "Connection CLOSED");
+    LOGGER.info("Connection CLOSED");
   }
 
   @OnError

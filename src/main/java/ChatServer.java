@@ -4,6 +4,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.OnMessage;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
+import javax.websocket.CloseReason;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -16,7 +17,7 @@ import java.io.*;
 public class ChatServer
 {
   private static final Logger LOGGER = Logger.getLogger(ChatServer.class.getName());
-  private static Set<Session> existing_sessions;
+  private static Set<Session> existing_sessions = new HashSet<Session>();
 
   @OnOpen
   public void onOpen(Session session) throws IOException
@@ -56,9 +57,10 @@ public class ChatServer
       this.requestingSession.close(new CloseReason(CloseReason.CloseCodes.CLOSED_ABNORMALLY, "Exception occurred: " + throwable.toString()));
       LOGGER.info("Connection CLOSED.");
 
-    } catch (IOException e)
+    }
+    catch (IOException ex)
     {
-      Logger.getLogger(ConnectionAcceptEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.error("FAILED. AN EXCEPTION HAS OCCURED: ", ex);
     }
   }
 }

@@ -48,6 +48,17 @@ public class ChatServer
   @OnError
   public void onError(Session session, Throwable throwable)
   {
+    LOGGER.info(String.format("ERROR occured: %s", throwable));
 
+    try
+    {
+      LOGGER.info(String.format("CLOSING connection for SESSION ID %s.", session.getId()));
+      this.requestingSession.close(new CloseReason(CloseReason.CloseCodes.CLOSED_ABNORMALLY, "Exception occurred: " + throwable.toString()));
+      LOGGER.info("Connection CLOSED.");
+
+    } catch (IOException e)
+    {
+      Logger.getLogger(ConnectionAcceptEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }
 }
